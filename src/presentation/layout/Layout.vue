@@ -1,5 +1,5 @@
 <template> 
-  <div class="language-switch cursor-pointer">
+  <div class="language-switch">
     <img
       src="/images/turkey.png"
       alt="TR"
@@ -43,7 +43,8 @@ export default defineComponent({
 
 <style>
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
 }
 
 .language-switch {
@@ -51,6 +52,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .language-switch img {

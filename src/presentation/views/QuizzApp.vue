@@ -16,7 +16,7 @@
     </div>
 
     <div
-      v-if="!showWelcomeScreen && currentQuestionIndex < quizListModel.length"
+      v-else-if="!showWelcomeScreen && currentQuestionIndex < quizListModel.length"
       class="d-flex justify-content-center align-items-center vh-100"
     >
       <Question
@@ -26,7 +26,7 @@
       />
     </div>
 
-    <div v-if="isLoading" class="loading-container">
+    <div v-else-if="isLoading" class="loading-container">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">{{ t("loading") }}</span>
       </div>
