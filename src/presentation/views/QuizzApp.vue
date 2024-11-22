@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <div v-if="isLoading" class="loading-container">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <!-- Hoşgeldiniz Ekranı -->
+    <div v-if="showWelcomeScreen" class="d-flex justify-content-center align-items-center vh-100">
+      <div class="card shadow-lg" style="width: 80%; max-width: 800px;">
+        <div class="card-body text-center">
+          <h2 class="card-title mb-4">Welcome!!</h2>
+          <p class="lead mb-4">Welcome to our competition. This competition consists of 10 questions. Please press the Start button when you are ready.</p>
+          <button @click="startQuiz" class="btn btn-primary btn-lg">Start</button>
+        </div>
       </div>
     </div>
 
-    <div
-      v-else-if="currentQuestionIndex < quizListModel.length"
-      class="d-flex justify-content-center align-items-center vh-100"
-    >
+    <!-- Soru Ekranı -->
+    <div v-if="!showWelcomeScreen && currentQuestionIndex < quizListModel.length" class="d-flex justify-content-center align-items-center vh-100">
       <Question
         :questionIndex="currentQuestionIndex"
         :questionData="quizListModel[currentQuestionIndex]"
@@ -17,6 +20,14 @@
       />
     </div>
 
+    <!-- Yükleniyor Ekranı -->
+    <div v-if="isLoading" class="loading-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Sonuç Ekranı -->
     <div v-else class="d-flex justify-content-center align-items-center vh-100">
       <div class="card shadow-lg" style="width: 80%; max-width: 800px;">
         <div class="card-body">
@@ -75,6 +86,7 @@ export default defineComponent({
     const isLoading = ref<boolean>(false);
     const currentQuestionIndex = ref(0);
     const answers = ref<{ question: string; answer: string }[]>([]);
+    const showWelcomeScreen = ref(true); 
 
     const fetchQuestions = () => {
       isLoading.value = true;
@@ -85,7 +97,6 @@ export default defineComponent({
             response.getValue().forEach((quiz) => {
               quizListModel.value.push(quiz);
             });
-
             isLoading.value = false;
           } else {
             swalNotification.error(
@@ -96,11 +107,16 @@ export default defineComponent({
               t(SWAL_MESSAGES.CONFIRM_BUTTON_TEXT)
             );
           }
-          quizListModel.value = quizListModel.value.slice(0, 10);
+          quizListModel.value = quizListModel.value.slice(0, 2);
         })
         .catch((e) => {
           swalNotification.error(e, t(SWAL_MESSAGES.CONFIRM_BUTTON_TEXT));
         });
+    };
+
+    const startQuiz = () => {
+      showWelcomeScreen.value = false;
+      fetchQuestions();
     };
 
     const saveAnswer = (answer: { question: string; answer: string }) => {
@@ -125,6 +141,8 @@ export default defineComponent({
       quizListModel,
       isLoading,
       restartQuiz,
+      showWelcomeScreen,
+      startQuiz,
     };
   },
 });
@@ -135,12 +153,16 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh; 
-  background-color: rgba(255, 255, 255, 0.9); 
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .spinner-border {
   width: 4rem;
   height: 4rem;
+}
+
+.card {
+  background-color: #f8f9fa;
 }
 </style>
