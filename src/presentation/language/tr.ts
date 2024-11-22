@@ -1,8 +1,25 @@
 export default {
+  pages: {
+    start: {
+      title: "Hoş geldiniz!!",
+      desc: "Yarışmamıza hoş geldiniz. Bu yarışma 10 sorudan oluşmaktadır. Her soru için 30 saniyeniz var fakat ilk 10 saniye cevap veremezsiniz. Hazır olduğunuzda Başla butonuna basınız.",
+      button: "Başla",
+    },
+    question: {
+      secondsRemaining: "saniye kaldı.",
+      readyForAnswer: "Soruyu şimdi yanıtlayabilirsiniz.",
+      waitForAnswer: "Soruyu yanıtlamak için lütfen bekleyiniz.",
+      noAnswer: "Cevaplandırılmamış",
+    },
+    result: {
+      title: "Quiz Yanıtları",
+      question: "Soru",
+      answer: "Cevap",
+      retake: "Tekrar Çöz",
+    },
+  },
+  loading: "Yükleniyor...",
   swalMessages: {
-    SESSION_TIME_OUT:
-      "Oturum süresi doldu. Lütfen kullanıcı bilgilerinizle tekrar giriş yapınız.",
-
     CONFIRM_BUTTON_TEXT: "Tamam",
     API_ERROR_MESSAGE:
       "Teknik hata. Sunucuya bağlanılamıyor, lütfen tekrar deneyiniz.",
@@ -24,5 +41,4 @@ export default {
       error: "Repository error.",
     },
   },
-
 };

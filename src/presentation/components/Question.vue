@@ -3,7 +3,9 @@
     <div class="card shadow-lg p-4">
       <h2 class="text-center mb-4">{{ currentQuestion.title }}</h2>
       <div class="mb-4">
-        <p class="text-center h5">{{ timer }} seconds remaining</p>
+        <p class="text-center h5">
+          {{ timer }} {{ t("pages.question.secondsRemaining") }}
+        </p>
         <div class="progress">
           <div
             class="progress-bar"
@@ -14,6 +16,16 @@
             aria-valuemax="30"
           ></div>
         </div>
+        <p class="text-center mt-3" v-if="timer > 20" style="color: #dc3545">
+          {{ t("pages.question.waitForAnswer") }}
+        </p>
+        <p
+          class="text-center mt-3"
+          v-else-if="timer >= 0"
+          style="color: #28a745"
+        >
+          {{ t("pages.question.readyForAnswer") }}
+        </p>
       </div>
 
       <div class="d-flex flex-column">
@@ -33,6 +45,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch, onUnmounted } from "vue";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "Question",
@@ -48,17 +61,18 @@ export default defineComponent({
   },
   emits: ["answered"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const timer = ref(30);
     const timerBarWidth = ref(100);
     const isDisabled = ref(true);
     const options = ref<string[]>([]);
-      const intervalId = ref<number | null>(null);
+    const intervalId = ref<number | null>(null);
 
     const currentQuestion = ref(props.questionData);
 
     const generateOptions = (body: string) => {
-      const sentences = body.split("\n").slice(0, 4); 
-      while (sentences.length < 4) sentences.push("Random Option"); 
+      const sentences = body.split("\n").slice(0, 4);
+      while (sentences.length < 4) sentences.push("Random Option");
       return sentences;
     };
 
@@ -79,7 +93,7 @@ export default defineComponent({
 
     const startTimer = () => {
       clearTimer();
-      timer.value = 30; 
+      timer.value = 30;
       timerBarWidth.value = 100;
       isDisabled.value = true;
 
@@ -91,7 +105,7 @@ export default defineComponent({
           clearTimer();
           emit("answered", {
             question: currentQuestion.value.title,
-            answer: "No Answer",
+            answer: t("pages.question.noAnswer"),
           });
         }
 
@@ -109,7 +123,7 @@ export default defineComponent({
       (newData) => {
         currentQuestion.value = newData;
         options.value = generateOptions(newData.body);
-        startTimer(); 
+        startTimer();
       }
     );
 
@@ -124,6 +138,7 @@ export default defineComponent({
       options,
       isDisabled,
       answerQuestion,
+      t,
     };
   },
 });

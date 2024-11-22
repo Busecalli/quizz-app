@@ -9,7 +9,7 @@ const messages = {
 
 const i18n = createI18n({
   legacy: false,
-  locale: "tr",
+  locale: "en",
   globalInjection: true,
   messages,
 });
