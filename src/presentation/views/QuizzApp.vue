@@ -122,7 +122,7 @@ export default defineComponent({
               t(SWAL_MESSAGES.CONFIRM_BUTTON_TEXT)
             );
           }
-          quizListModel.value = quizListModel.value.slice(0, 2);
+          quizListModel.value = quizListModel.value.slice(0, 10);
         })
         .catch((e) => {
           swalNotification.error(e, t(SWAL_MESSAGES.CONFIRM_BUTTON_TEXT));
